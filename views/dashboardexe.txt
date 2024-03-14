@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Styles for the dashboard */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dashboard {
+            width: 80%;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .post-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .post-item {
+            margin-bottom: 20px;
+        }
+
+        .post-item a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .post-item span {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .post-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <h1 class="title">Blog Titles</h1>
+
+        <% if (data && data.length > 0) { %>
+            <ul class="post-list">
+                <% data.forEach(post => { %>
+                    <li class="post-item">
+                        <a href="/post/<%= post._id %>" class="link">
+                            <span><%= post.title %></span>
+                        </a>
+                        <!-- Display the date in short form -->
+                        <span><%= new Date(post.createdate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                        <div class="post-buttons">
+                            <form action="/delete/<%= post._id %>" method="POST">
+                                <button type="submit" class="button">Delete</button>
+                            </form>
+                            <!-- Use an anchor tag for the edit link -->
+                            <a href="/edit/<%= post._id %>" class="button">Edit</a>
+                        </div>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p class="no-posts">No blog posts available.</p>
+        <% } %>
+
+        <a href="/addpost" class="button">Add Post</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!-- views/partials/nestedComments.ejs -->
+
+<% comments.forEach(comment => { %>
+    <li>
+        <%= comment.text %>
+        <!-- Display replies recursively -->
+        <% if (comment.replies && comment.replies.length > 0) { %>
+            <ul>
+                <%- include('partials/nestedComments', { comments: comment.replies, post_id: post_id }) %>
+            </ul>
+        <% } %>
+        <!-- Form for adding a reply to this comment -->
+        <form action="/addcomment/<%= post_id %>/<%= comment._id %>" method="POST">
+            <label for="commentText">Reply:</label>
+            <input type="text" id="commentText" name="commentText" required>
+            <button type="submit">Submit Reply</button>
+        </form>
+    </li>
+<% }); %>
+
+<!-- Form for adding a top-level comment -->
+<form action="/addcomment/<%= post_id %>" method="POST">
+    <label for="commentText">Add a Comment:</label>
+    <input type="text" id="commentText" name="commentText" required>
+    <button type="submit">Submit Comment</button>
+</form>

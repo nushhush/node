@@ -1,0 +1,32 @@
+<!-- dashboard.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Dashboard</h1>
+
+    <% data.forEach(blog => { %>
+        <div class="blog-item">
+            <a href="/post/<%= blog._id %>" class="link">
+            <h2><%= blog.title %></h2>
+        </a>
+            <p><%= blog.body %></p>
+            <% if (blog.image && blog.image.data) { %>
+                <img src="data:<%= blog.image.contentType %>;base64,<%= blog.image.data.toString('base64') %>" alt="Blog Image" class="blogimage">
+            <% } %>
+            <form action="/edit/<%= blog._id %>" method="GET">
+                <button type="submit">Edit</button>
+            </form>
+            <form action="/delete/<%= blog._id %>" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    <% }); %>
+</body>
+</html>
